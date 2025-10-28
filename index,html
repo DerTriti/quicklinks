@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-layout="grid" data-link-style="classic" data-show-favicons="false" data-reorder="drag">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Quick Links</title>
+<style>
+:root{
+  --bg:#f7f7f8;
+  --bg-accent:radial-gradient(1200px 1200px at 10% 10%,rgba(255,255,255,.14),transparent 60%),radial-gradient(1200px 1200px at 90% 90%,rgba(255,255,255,.12),transparent 60%),#f7f7f8;
+  --card:rgba(255,255,255,.55);
+  --text:#0f172a;
+  --muted:#6b7280;
+  --border:rgba(255,255,255,.38);
+  --accent:#111827;
+  --focus:2px solid #3b82f6;
+  --shadow:0 28px 60px rgba(0,0,0,.18);
+  --radius:18px;
+  --elev:blur(14px) saturate(130%);
+  --btn-bg:rgba(255,255,255,.6);
+  --btn-br:rgba(255,255,255,.45);
+  --btn-hover:rgba(255,255,255,.75);
+  --card-hover:rgba(255,255,255,.65);
+  --link-shadow:0 16px 30px rgba(0,0,0,.12);
+  --hover-up:translateY(-2px);
+  --maxw:none
+}
+html[data-theme="dark-elegant"]{
+  --bg:#0b0f19;
+  --bg-accent:radial-gradient(1200px 1200px at 12% 8%,rgba(70,120,255,.08),transparent 60%),radial-gradient(1200px 1200px at 88% 92%,rgba(120,255,210,.07),transparent 60%),#0b0f19;
+  --card:rgba(18,24,38,.49);
+  --text:#e5e7eb;
+  --muted:#a2a9b2;
+  --border:rgba(255,255,255,.16);
+  --accent:#e5e7eb;
+  --focus:2px solid #60a5fa;
+  --shadow:0 40px 80px rgba(0,0,0,.55);
+  --btn-bg:rgba(18,24,38,.6);
+  --btn-br:rgba(255,255,255,.18);
+  --btn-hover:rgba(18,24,38,.8);
+  --card-hover:rgba(18,24,38,.66);
+  --link-shadow:0 24px 50px rgba(0,0,0,.6)
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--bg-accent);
+  color:var(--text);
+  font:16px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif
+}
+.container{max-width:var(--maxw);margin:0 auto;padding:24px}
+.nav{
+  position:sticky;top:0;backdrop-filter:var(--elev);
+  background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,.12));
+  border-bottom:1px solid var(--border);z-index:5
+}
+html[data-theme="dark-elegant"] .nav{background:linear-gradient(180deg,rgba(18,24,38,.6),rgba(18,24,38,.3))}
+.nav-inner{max-width:var(--maxw);margin:0 auto;padding:14px 24px;display:flex;gap:18px;align-items:center;justify-content:space-between}
+.brand{font-weight:800;letter-spacing:-.02em}
+.menu{display:flex;gap:10px;flex-wrap:wrap}
+.link-btn{
+  all:unset;cursor:pointer;border:1px solid var(--btn-br);background:var(--btn-bg);color:inherit;
+  padding:10px 14px;border-radius:var(--radius);box-shadow:var(--link-shadow);transition:transform .18s ease,box-shadow .18s ease,background-color .2s ease
+}
+.link-btn:focus-visible{outline:var(--focus)}
+.link-btn:hover{transform:var(--hover-up);background:var(--btn-hover)}
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:24px;margin-top:18px;
+  backdrop-filter:var(--elev);
+  transition:transform .18s ease,box-shadow .18s ease,background-color .2s ease
+}
+.card:hover{transform:var(--hover-up);background:var(--card-hover)}
+h1{margin:0 0 8px;font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:800;letter-spacing:-.02em}
+h2{margin:18px 0 8px;font-size:1.25rem}
+.muted{color:var(--muted)}
+.hr{border-top:1px solid var(--border);margin:16px 0}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.input,.select,.textarea{
+  border:1px solid var(--btn-br);background:transparent;color:inherit;border-radius:var(--radius);padding:10px 12px;
+  backdrop-filter:var(--elev)
+}
+.input:focus-visible,.select:focus-visible,.textarea:focus-visible{outline:var(--focus)}
+.badge{
+  display:inline-block;border:1px solid var(--btn-br);border-radius:999px;padding:6px 10px;background:var(--btn-bg);color:var(--muted);backdrop-filter:var(--elev)
+}
+.footer{margin:20px 0;color:var(--muted);text-align:center}
+.layout-switch{display:flex;gap:10px;align-items:center}
+.categories{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0}
+.category-pill{
+  border:1px solid var(--btn-br);background:var(--btn-bg);padding:8px 12px;border-radius:999px;cursor:grab;user-select:none;backdrop-filter:var(--elev);
+  transition:transform .18s ease,background-color .2s ease,box-shadow .18s ease
+}
+.category-pill:hover{transform:var(--hover-up);box-shadow:var(--link-shadow)}
+.category-pill.active{border-color:#3b82f6}
+.category-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.links-wrap{margin-top:12px}
+.links-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+@media (max-width:1400px){.links-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:900px){.links-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.links-grid{grid-template-columns:1fr}}
+.links-list{display:flex;flex-direction:column;gap:10px}
+.link-item{
+  position:relative;border:1px solid var(--btn-br);background:var(--btn-bg);backdrop-filter:var(--elev);
+  border-radius:var(--radius);padding:12px;display:flex;align-items:center;gap:12px;cursor:grab;user-select:none;
+  box-shadow:var(--link-shadow);transition:transform .18s ease,box-shadow .18s ease,background-color .2s ease,border-color .2s ease
+}
+.link-item:hover{transform:var(--hover-up)}
+.link-item.dragging{opacity:.65;transform:translateY(-1px) scale(1.01)}
+.favicon{width:16px;height:16px;border-radius:4px;flex:0 0 16px;display:none;filter:drop-shadow(0 2px 6px rgba(0,0,0,.25))}
+html[data-show-favicons="true"] .favicon{display:block}
+.link-title{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.link-url{font-size:.9rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.link-col{margin-left:auto;display:flex;gap:8px}
+.small-btn{
+  all:unset;cursor:pointer;border:1px solid var(--btn-br);background:var(--btn-bg);padding:7px 10px;border-radius:12px;
+  transition:transform .18s ease,box-shadow .18s ease,background-color .2s ease
+}
+.small-btn:hover{transform:var(--hover-up);box-shadow:var(--link-shadow)}
+.color-dot{width:12px;height:12px;border-radius:50%;border:1px solid var(--btn-br)}
+html[data-link-style="classic"] .link-item{border-radius:var(--radius)}
+html[data-link-style="modern"] .link-item{border-radius:22px}
+html[data-link-style="minimal"] .link-item{border:none;border-left:4px solid var(--btn-br);border-radius:12px;background:transparent;backdrop-filter:none}
+html[data-link-style="card"] .link-item{border-radius:22px;box-shadow:0 30px 70px rgba(0,0,0,.18)}
+.drop-target{outline:2px dashed #3b82f6;outline-offset:2px}
+.placeholder{border:2px dashed var(--btn-br);border-radius:var(--radius);height:54px}
+.modal-overlay{position:fixed;inset:0;display:none;place-items:center;background:rgba(15,23,42,.35);backdrop-filter:blur(10px);z-index:60;animation:fadeIn .18s ease}
+.modal-overlay.open{display:grid}
+.modal{
+  width:min(780px,92vw);background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;backdrop-filter:var(--elev);
+  transform:translateY(6px);animation:pop .2s ease forwards
+}
+.modal-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-weight:800}
+.close-btn{all:unset;cursor:pointer;padding:8px 10px;border:1px solid var(--btn-br);border-radius:12px;background:var(--btn-bg);transition:transform .18s ease,box-shadow .18s ease}
+.close-btn:hover{transform:var(--hover-up);box-shadow:var(--link-shadow)}
+.modal-body{max-height:72vh;overflow:auto;scrollbar-width:none;-ms-overflow-style:none}
+.modal-body::-webkit-scrollbar{width:0;height:0}
+.section{border-top:1px solid var(--border)}
+.section:first-of-type{border-top:0}
+.section-title{display:flex;align-items:center;gap:10px;padding:12px 16px;user-select:none}
+.section-content{padding:12px 16px}
+.form-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.form-row>*{flex:1 1 auto}
+.palette{display:flex;gap:8px;flex-wrap:wrap}
+.swatch{width:26px;height:26px;border-radius:8px;border:1px solid var(--btn-br);cursor:pointer;transition:transform .12s ease,box-shadow .18s ease}
+.swatch[aria-selected="true"]{outline:2px solid #3b82f6;outline-offset:2px}
+.swatch:hover{transform:var(--hover-up);box-shadow:var(--link-shadow)}
+.rgb-row{display:flex;gap:8px;align-items:center}
+.rgb-row input[type=number]{width:90px}
+.list{max-height:40vh;overflow:auto;border:1px solid var(--border);border-radius:12px;padding:8px;background:var(--card);backdrop-filter:var(--elev)}
+.hidden{display:none}
+@keyframes pop{to{transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</head>
+<body>
+  <div class="nav">
+    <div class="nav-inner">
+      <div class="brand">Quick Links</div>
+      <div class="menu">
+        <button class="link-btn" id="btnOpenSettings">Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <section class="card" id="homeCard">
+      <h1>Home</h1>
+      <p class="muted">Organize your links. Drag & drop to reorder links and categories. Changes are saved automatically.</p>
+
+      <div class="hr"></div>
+
+      <div class="controls">
+        <button class="link-btn" id="btnAddLink">Add Link</button>
+        <button class="link-btn" id="btnAddCategory">Add Category</button>
+        <button class="link-btn" id="btnImport">Import</button>
+        <button class="link-btn" id="btnExport">Export</button>
+        <span class="badge" id="linkCount">0 links</span>
+        <div class="layout-switch">
+          <span class="muted">Layout:</span>
+          <button class="small-btn" data-layout="list">List</button>
+          <button class="small-btn" data-layout="grid">Grid</button>
+        </div>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="category-actions">
+        <span class="muted">Categories:</span>
+        <div class="categories" id="categories"></div>
+      </div>
+
+      <div class="links-wrap">
+        <div id="linksContainer" class="links-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <div class="footer">© <span id="year"></span> Quick Links.</div>
+  </div>
+
+  <div class="modal-overlay" id="settingsOverlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Settings">
+      <div class="modal-header">
+        <div class="modal-title">Settings</div>
+        <button class="close-btn" id="btnCloseSettings">Close</button>
+      </div>
+      <div class="modal-body">
+        <section class="section">
+          <div class="section-title"><strong>Theme</strong></div>
+          <div class="section-content">
+            <div class="form-row">
+              <label><input type="radio" name="theme" value="light" checked> Light</label>
+              <label><input type="radio" name="theme" value="dark-elegant"> Dark</label>
+              <label><input type="radio" name="theme" value="auto"> Auto</label>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-title"><strong>Link Style</strong></div>
+          <div class="section-content">
+            <div class="form-row">
+              <label><input type="radio" name="linkStyle" value="classic" checked> Classic</label>
+              <label><input type="radio" name="linkStyle" value="modern"> Modern</label>
+              <label><input type="radio" name="linkStyle" value="minimal"> Minimal</label>
+              <label><input type="radio" name="linkStyle" value="card"> Card</label>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-title"><strong>Layout</strong></div>
+          <div class="section-content">
+            <div class="form-row">
+              <label><input type="radio" name="layout" value="list"> List</label>
+              <label><input type="radio" name="layout" value="grid" checked> Grid</label>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-title"><strong>Reorder Mode</strong></div>
+          <div class="section-content">
+            <div class="form-row">
+              <label><input type="radio" name="reorder" value="drag" checked> Drag & Drop</label>
+              <label><input type="radio" name="reorder" value="buttons"> Buttons ↑ ↓</label>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-title"><strong>Information</strong></div>
+          <div class="section-content">
+            <div class="form-row">
+              <label><input type="checkbox" id="toggleFavicons"> Enable site icons (favicons)</label>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-title"><strong>Font Source</strong></div>
+          <div class="section-content">
+            <div class="form-row">
+              <label><input type="radio" name="fontSource" value="default" checked> Default Modern</label>
+              <label><input type="radio" name="fontSource" value="system"> System Fonts</label>
+              <label><input type="radio" name="fontSource" value="builtin"> Web Fonts (built-in)</label>
+              <label><input type="radio" name="fontSource" value="local"> Local PC Fonts</label>
+              <label><input type="radio" name="fontSource" value="url"> URL Web Font</label>
+            </div>
+            <div class="form-row" id="fontBuiltInRow" style="display:none">
+              <select id="fontBuiltIn" class="select"></select>
+            </div>
+            <div class="form-row" id="fontLocalRow" style="display:none">
+              <select id="fontLocal" class="select"></select>
+            </div>
+            <div class="form-row" id="fontUrlRow" style="display:none">
+              <input id="fontUrl" class="input" placeholder="https://example.com/font.css" />
+              <input id="fontFamilyUrl" class="input" placeholder="CSS font-family name" />
+              <button class="link-btn" id="btnApplyUrlFont">Apply</button>
+            </div>
+            <p class="muted">Font settings are not saved.</p>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-title"><strong>Website Type</strong></div>
+          <div class="section-content">
+            <div class="form-row">
+              <button class="link-btn" id="btnActivateCom">Activate .com (default)</button>
+              <input class="input" id="tldSearch" placeholder="Search extension (e.g. .it, .org, .東京)" />
+            </div>
+            <div id="tldList" class="list"></div>
+            <p class="muted">“Activate” is plain text. Not persisted.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="linkOverlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Link editor">
+      <div class="modal-header">
+        <div class="modal-title" id="linkModalTitle">Add Link</div>
+        <button class="close-btn" id="btnCloseLink">Close</button>
+      </div>
+      <div class="modal-body">
+        <div class="section-content">
+          <div class="form-row">
+            <input id="fldTitle" class="input" placeholder="Title" />
+            <input id="fldURL" class="input" placeholder="URL (https://...)" />
+          </div>
+          <div class="form-row">
+            <select id="fldCategory" class="select"></select>
+            <input id="fldNewCategory" class="input" placeholder="Or create new category" />
+          </div>
+          <div class="form-row">
+            <label><input type="checkbox" id="fldNewTab" checked> Open in new tab</label>
+          </div>
+
+          <div class="hr"></div>
+
+          <h2>Color</h2>
+          <div class="form-row">
+            <div class="palette" id="palette"></div>
+          </div>
+          <div class="form-row">
+            <input type="color" id="fldColorPicker" class="input" value="#2563eb" />
+          </div>
+          <div class="rgb-row">
+            <label>R <input type="number" id="fldR" min="0" max="255" value="37"></label>
+            <label>G <input type="number" id="fldG" min="0" max="255" value="99"></label>
+            <label>B <input type="number" id="fldB" min="0" max="255" value="235"></label>
+            <span class="badge" id="rgbPreview">#2563eb</span>
+          </div>
+
+          <div class="hr"></div>
+
+          <div class="controls">
+            <button class="link-btn" id="btnSaveLink">Save</button>
+            <button class="link-btn hidden" id="btnDeleteLink">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<input id="fileImport" type="file" accept="application/json" style="display:none" />
+
+<script>
+const LS_LINKS="ql_links_v1",LS_CATS="ql_categories_v1";
+let links=load(LS_LINKS,[])||[],categories=load(LS_CATS,[])||[];
+let ui={layout:document.documentElement.dataset.layout||"grid",linkStyle:document.documentElement.dataset.linkStyle||"classic",favicons:document.documentElement.dataset.showFavicons==="true",theme:document.documentElement.dataset.theme||"light",reorder:document.documentElement.dataset.reorder||"drag",tldList:[],tldActive:new Set([".com"]),font:{source:"default",builtIn:null,local:null,urlCss:null,urlFamily:null}};
+const $=q=>document.querySelector(q),$$=q=>Array.from(document.querySelectorAll(q));
+const yearEl=$("#year"),linksContainer=$("#linksContainer"),linkCount=$("#linkCount"),categoriesEl=$("#categories");
+const btnAddLink=$("#btnAddLink"),btnAddCategory=$("#btnAddCategory"),fileImport=$("#fileImport"),btnImport=$("#btnImport"),btnExport=$("#btnExport");
+const settingsOverlay=$("#settingsOverlay"),btnOpenSettings=$("#btnOpenSettings"),btnCloseSettings=$("#btnCloseSettings"),toggleFavicons=$("#toggleFavicons");
+const linkOverlay=$("#linkOverlay"),btnCloseLink=$("#btnCloseLink"),linkModalTitle=$("#linkModalTitle"),fldTitle=$("#fldTitle"),fldURL=$("#fldURL"),fldCategory=$("#fldCategory"),fldNewCategory=$("#fldNewCategory"),fldNewTab=$("#fldNewTab"),fldColorPicker=$("#fldColorPicker"),fldR=$("#fldR"),fldG=$("#fldG"),fldB=$("#fldB"),rgbPreview=$("#rgbPreview"),btnSaveLink=$("#btnSaveLink"),btnDeleteLink=$("#btnDeleteLink"),palette=$("#palette");
+const tldListEl=$("#tldList"),tldSearch=$("#tldSearch"),btnActivateCom=$("#btnActivateCom");
+const fontBuiltInRow=$("#fontBuiltInRow"),fontLocalRow=$("#fontLocalRow"),fontUrlRow=$("#fontUrlRow"),fontBuiltIn=$("#fontBuiltIn"),fontLocal=$("#fontLocal"),fontUrl=$("#fontUrl"),fontFamilyUrl=$("#fontFamilyUrl"),btnApplyUrlFont=$("#btnApplyUrlFont");
+let editingId=null,activeCatId=null,drag={type:null,id:null,ghost:null,offsetX:0,offsetY:0,placeholder:null};
+function load(k,f){try{const v=JSON.parse(localStorage.getItem(k));return v??f}catch{return f}}
+function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function uid(){return Math.random().toString(36).slice(2,10)}
+function hexToRGB(hex){const h=hex.replace("#","");if(h.length===3)return{r:parseInt(h[0]+h[0],16),g:parseInt(h[1]+h[1],16),b:parseInt(h[2]+h[2],16)};return{r:parseInt(h.slice(0,2),16),g:parseInt(h.slice(2,4),16),b:parseInt(h.slice(4,6),16)}}
+function RGBToHex(r,g,b){const to=v=>Math.max(0,Math.min(255,Number(v)|0)).toString(16).padStart(2,"0");return"#"+to(r)+to(g)+to(b)}
+function setLayout(v){ui.layout=v;document.documentElement.setAttribute("data-layout",v);linksContainer.className=v==="grid"?"links-grid":"links-list"}
+function setLinkStyle(v){ui.linkStyle=v;document.documentElement.setAttribute("data-link-style",v)}
+function setFavicons(on){ui.favicons=!!on;document.documentElement.setAttribute("data-show-favicons",on?"true":"false")}
+function setTheme(v){ui.theme=v;const m=matchMedia("(prefers-color-scheme: dark)").matches;const mode=v==="auto"?(m?"dark-elegant":"light"):v;document.documentElement.setAttribute("data-theme",mode)}
+function setReorder(v){ui.reorder=v;document.documentElement.setAttribute("data-reorder",v);renderLinks()}
+function ensureDefaults(){if(categories.length===0){categories=[{id:uid(),name:"Uncategorized"},{id:uid(),name:"Work"},{id:uid(),name:"Personal"}];save(LS_CATS,categories)}if(links.length===0){const c=categories[0].id;links=[{id:uid(),title:"Google",url:"https://www.google.com",catId:c,color:"#2563eb",target:"_blank"},{id:uid(),title:"YouTube",url:"https://www.youtube.com",catId:c,color:"#ef4444",target:"_blank"},{id:uid(),title:"GitHub",url:"https://github.com",catId:c,color:"#111827",target:"_blank"},{id:uid(),title:"Wikipedia",url:"https://www.wikipedia.org",catId:c,color:"#10b981",target:"_blank"}];save(LS_LINKS,links)}}
+function renderCategories(){categoriesEl.innerHTML="";categories.forEach(cat=>{const b=document.createElement("button");b.className="category-pill";b.textContent=cat.name;b.dataset.id=cat.id;b.draggable=false;b.onclick=()=>toggleCategory(cat.id);enableCatDrag(b);categoriesEl.appendChild(b)})}
+function toggleCategory(id){activeCatId=activeCatId===id?null:id;$$(".category-pill").forEach(p=>p.classList.toggle("active",p.dataset.id===activeCatId));renderLinks()}
+function faviconURL(u){try{return new URL(u).origin+"/favicon.ico"}catch{return""}}
+function linkItem(l){const item=document.createElement("div");item.className="link-item";item.dataset.id=l.id;item.style.borderColor=l.color;const fav=document.createElement("img");fav.className="favicon";fav.src=faviconURL(l.url);const block=document.createElement("div");block.style.flex="1 1 auto";block.style.minWidth="0";const t=document.createElement("div");t.className="link-title";t.textContent=l.title;const u=document.createElement("div");u.className="link-url";u.textContent=l.url;block.append(t,u);const col=document.createElement("div");col.className="link-col";const dot=document.createElement("span");dot.className="color-dot";dot.style.background=l.color;const open=document.createElement("button");open.className="small-btn";open.textContent="Open";open.onclick=()=>window.open(l.url,l.target||"_blank","noopener");const edit=document.createElement("button");edit.className="small-btn";edit.textContent="Edit";edit.onclick=()=>openLinkEditor(l.id);const del=document.createElement("button");del.className="small-btn";del.textContent="Remove";del.onclick=()=>{links=links.filter(x=>x.id!==l.id);save(LS_LINKS,links);renderLinks()};col.append(dot,open,edit,del);item.append(fav,block,col);if(ui.reorder==="drag")enableLinkDrag(item);else enableLinkButtons(item);return item}
+function enableLinkButtons(item){const up=document.createElement("button"),down=document.createElement("button");up.className="small-btn";down.className="small-btn";up.textContent="↑";down.textContent="↓";const col=item.querySelector(".link-col");col.append(up,down);up.onclick=()=>moveItem(item.dataset.id,-1);down.onclick=()=>moveItem(item.dataset.id,1)}
+function moveItem(id,delta){const i=links.findIndex(x=>x.id===id);if(i<0)return;const j=Math.max(0,Math.min(links.length-1,i+delta));if(i===j)return;const [m]=links.splice(i,1);links.splice(j,0,m);save(LS_LINKS,links);renderLinks()}
+function renderLinks(){linksContainer.innerHTML="";let list=links.slice();if(activeCatId)list=list.filter(l=>l.catId===activeCatId);linkCount.textContent=`${list.length} ${list.length===1?"link":"links"}`;list.forEach(l=>linksContainer.appendChild(linkItem(l)))}
+function enableLinkDrag(el){el.style.touchAction="none";el.addEventListener("pointerdown",e=>startDrag(e,el,"link"))}
+function enableCatDrag(el){el.style.touchAction="none";el.addEventListener("pointerdown",e=>startDrag(e,el,"category"))}
+function startDrag(e,el,type){drag.type=type;drag.id=el.dataset.id;const r=el.getBoundingClientRect();drag.offsetX=e.clientX-r.left;drag.offsetY=e.clientY-r.top;drag.ghost=el.cloneNode(true);drag.ghost.classList.add("dragging");drag.ghost.style.position="fixed";drag.ghost.style.left=r.left+"px";drag.ghost.style.top=r.top+"px";drag.ghost.style.width=r.width+"px";drag.ghost.style.pointerEvents="none";document.body.appendChild(drag.ghost);drag.placeholder=document.createElement("div");drag.placeholder.className="placeholder";drag.placeholder.style.width=r.width+"px";drag.placeholder.style.height=r.height+"px";el.parentElement.insertBefore(drag.placeholder,el);el.style.display="none";document.addEventListener("pointermove",onDragMove);document.addEventListener("pointerup",onDragEnd,{once:true})}
+function onDragMove(e){if(!drag.ghost)return;drag.ghost.style.left=(e.clientX-drag.offsetX)+"px";drag.ghost.style.top=(e.clientY-drag.offsetY)+"px";if(drag.type==="link"){const c=linksContainer;if(!c)return;const siblings=[...c.children].filter(n=>n!==drag.placeholder);let ins=false;for(const s of siblings){const r=s.getBoundingClientRect();const before=e.clientY<r.top+r.height/2;if(before){c.insertBefore(drag.placeholder,s);ins=true;break}}if(!ins)c.appendChild(drag.placeholder)}else{const pills=[...document.querySelectorAll(".category-pill")].filter(p=>p!==drag.placeholder);let ins=false;for(const p of pills){const r=p.getBoundingClientRect();const before=e.clientX<r.left+r.width/2;if(before){p.parentElement.insertBefore(drag.placeholder,p);ins=true;break}}if(!ins)categoriesEl.appendChild(drag.placeholder)}}
+function onDragEnd(){if(!drag.ghost)return;drag.ghost.remove();drag.ghost=null;if(drag.type==="link"){const ordered=[...linksContainer.children].filter(n=>n.classList.contains("link-item")||n===drag.placeholder).map(n=>n===drag.placeholder?drag.id:n.dataset.id);const map=new Map(links.map(l=>[l.id,l]));links=ordered.map(id=>map.get(id)).concat(links.filter(l=>!ordered.includes(l.id)));save(LS_LINKS,links);renderLinks()}else{const ids=[...categoriesEl.children].filter(n=>n.classList&&n.classList.contains("category-pill")).map(n=>n.dataset.id);const map=new Map(categories.map(c=>[c.id,c]));categories=ids.map(id=>map.get(id));save(LS_CATS,categories);renderCategories()}cleanupDrag()}
+function cleanupDrag(){const ph=drag.placeholder;if(ph&&ph.parentElement)ph.parentElement.removeChild(ph);drag={type:null,id:null,ghost:null,offsetX:0,offsetY:0,placeholder:null}}
+function openLinkEditor(id){editingId=id;populateCategoriesSelect();if(id){const l=links.find(x=>x.id===id);linkModalTitle.textContent="Edit Link";fldTitle.value=l.title;fldURL.value=l.url;fldNewTab.checked=(l.target!=="_self");fldCategory.value=l.catId;fldNewCategory.value="";setColor(l.color);btnDeleteLink.classList.remove("hidden")}else{linkModalTitle.textContent="Add Link";fldTitle.value="";fldURL.value="";fldNewTab.checked=true;fldCategory.value=categories[0]?.id||"";fldNewCategory.value="";setColor("#2563eb");btnDeleteLink.classList.add("hidden")}linkOverlay.classList.add("open");linkOverlay.setAttribute("aria-hidden","false")}
+function populateCategoriesSelect(){fldCategory.innerHTML="";categories.forEach(c=>{const o=document.createElement("option");o.value=c.id;o.textContent=c.name;fldCategory.appendChild(o)})}
+function setColor(hex){const {r,g,b}=hexToRGB(hex);fldColorPicker.value=hex;fldR.value=r;fldG.value=g;fldB.value=b;rgbPreview.textContent=hex.toLowerCase();$$(".swatch").forEach(s=>s.setAttribute("aria-selected","false"));const m=[...palette.children].find(s=>s.dataset.color?.toLowerCase()===hex.toLowerCase());if(m)m.setAttribute("aria-selected","true")}
+function saveLink(){const title=fldTitle.value.trim(),url=fldURL.value.trim();if(!title||!url)return;let catId=fldCategory.value;const newCat=fldNewCategory.value.trim();if(newCat){const c={id:uid(),name:newCat};categories.push(c);save(LS_CATS,categories);catId=c.id}const color=fldColorPicker.value;const target=fldNewTab.checked?"_blank":"_self";if(editingId){const i=links.findIndex(x=>x.id===editingId);if(i>-1)links[i]={...links[i],title,url,catId,color,target}}else{links.push({id:uid(),title,url,catId,color,target})}save(LS_LINKS,links);closeLinkModal();renderCategories();renderLinks()}
+function deleteLink(){if(!editingId)return;links=links.filter(x=>x.id!==editingId);save(LS_LINKS,links);closeLinkModal();renderLinks()}
+function closeLinkModal(){linkOverlay.classList.remove("open");linkOverlay.setAttribute("aria-hidden","true")}
+function buildPalette(){const colors=["#2563eb","#10b981","#ef4444","#f59e0b","#6b7280","#111827","#22c55e","#8b5cf6","#06b6d4","#eab308"];palette.innerHTML="";colors.forEach(c=>{const b=document.createElement("button");b.className="swatch";b.style.background=c;b.dataset.color=c;b.onclick=()=>setColor(c);palette.appendChild(b)});setColor(colors[0])}
+function syncRGB(){const fromRGB=()=>{const hex=RGBToHex(fldR.value,fldG.value,fldB.value);fldColorPicker.value=hex;rgbPreview.textContent=hex};const fromPicker=()=>{const {r,g,b}=hexToRGB(fldColorPicker.value);fldR.value=r;fldG.value=g;fldB.value=b;rgbPreview.textContent=fldColorPicker.value.toLowerCase()};[fldR,fldG,fldB].forEach(i=>i.addEventListener("input",fromRGB));fldColorPicker.addEventListener("input",fromPicker)}
+function importJSON(){fileImport.value="";fileImport.click()}
+function onImportFile(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const data=JSON.parse(r.result);if(Array.isArray(data.links))links=data.links;if(Array.isArray(data.categories))categories=data.categories;save(LS_LINKS,links);save(LS_CATS,categories);renderCategories();renderLinks()}catch{}};r.readAsText(f)}
+function exportJSON(){const data={links,categories};const blob=new Blob([JSON.stringify(data)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="quick-links.json";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(url);a.remove()},0)}
+function openSettings(){settingsOverlay.classList.add("open");settingsOverlay.setAttribute("aria-hidden","false")}
+function closeSettings(){settingsOverlay.classList.remove("open");settingsOverlay.setAttribute("aria-hidden","true")}
+async function loadTLDs(){try{const r=await fetch("https://data.iana.org/TLD/tlds-alpha-by-domain.txt",{cache:"no-store"});if(!r.ok)throw 0;const t=await r.text();const lines=t.split(/\r?\n/).filter(x=>x&&!x.startsWith("#")).map(x=>"."+x.toLowerCase());const set=new Set([".com",...lines]);ui.tldList=Array.from(set)}catch{ui.tldList=[".com",".it",".ru",".org",".net",".co",".uk",".de",".fr",".es",".io",".ai",".app",".dev",".jp",".kr",".cn",".br",".au",".ca",".mx",".ar",".ch",".se",".no",".nl",".be",".pt",".pl",".cz",".sk",".ro",".hu",".gr",".tr",".ua",".online",".site",".blog",".shop",".gov",".edu",".mil",".info",".biz",".tv",".fm",".museum",".aero",".cat",".asia",".tel",".name",".pro",".gg",".su",".xn--p1ai",".xn--fiqs8s",".xn--mk1bu44c"]}renderTLDs()}
+function renderTLDs(){const q=tldSearch.value.trim().toLowerCase();tldListEl.innerHTML="";ui.tldList.filter(t=>!q||t.includes(q)).forEach(t=>{const row=document.createElement("div");row.className="form-row";const cb=document.createElement("input");cb.type="checkbox";cb.checked=ui.tldActive.has(t);cb.onchange=()=>{if(cb.checked)ui.tldActive.add(t);else ui.tldActive.delete(t)};const lab=document.createElement("label");lab.append(cb,document.createTextNode(" Activate "+t));row.append(lab);tldListEl.appendChild(row)})}
+function setLayoutButtons(){$$('.layout-switch .small-btn').forEach(b=>b.addEventListener("click",()=>setLayout(b.dataset.layout)))}
+function setSettingsBindings(){toggleFavicons.checked=ui.favicons;toggleFavicons.onchange=()=>setFavicons(toggleFavicons.checked);$$('input[name="theme"]').forEach(r=>r.onchange=()=>setTheme(r.value));$$('input[name="linkStyle"]').forEach(r=>r.onchange=()=>setLinkStyle(r.value));$$('input[name="layout"]').forEach(r=>r.onchange=()=>setLayout(r.value));$$('input[name="reorder"]').forEach(r=>r.onchange=()=>setReorder(r.value));$$('input[name="fontSource"]').forEach(r=>r.onchange=onFontSourceChange);btnApplyUrlFont.onclick=applyUrlFont;btnActivateCom.onclick=()=>{ui.tldActive=new Set([".com"]);renderTLDs()};tldSearch.oninput=renderTLDs()}
+function onFontSourceChange(e){const v=e.target.value;ui.font.source=v;fontBuiltInRow.style.display=v==="builtin"?"":"none";fontLocalRow.style.display=v==="local"?"":"none";fontUrlRow.style.display=v==="url"?"":"none";if(v==="default")applyFontStack(defaultFontStack());if(v==="system")applyFontStack(systemFontStack());if(v==="builtin")applyBuiltInSelected();if(v==="local")detectLocalFonts();if(v==="url"){}}
+function applyBuiltInSelected(){const fam=fontBuiltIn.value;applyBuiltInFont(fam)}
+function applyUrlFont(){const css=fontUrl.value.trim(),fam=fontFamilyUrl.value.trim();if(!css||!fam)return;applyExternalCssFont(css,fam)}
+function defaultFontStack(){return '"Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif'}
+function systemFontStack(){return 'ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif'}
+function applyFontStack(stack){document.body.style.fontFamily=stack}
+function injectStyle(css,id){let el=document.getElementById(id);if(!el){el=document.createElement("style");el.id=id;document.head.appendChild(el)}el.textContent=css}
+function applyExternalCssFont(cssUrl,family){const id="ext_font_css";let link=document.getElementById(id);if(!link){link=document.createElement("link");link.id=id;link.rel="stylesheet";document.head.appendChild(link)}link.href=cssUrl;document.body.style.fontFamily=`"${family}", `+systemFontStack()}
+const BUILTIN_FONTS=[
+  {family:"Inter",files:{400:"fonts/inter-regular.woff2",600:"fonts/inter-semibold.woff2",700:"fonts/inter-bold.woff2"}},
+  {family:"Poppins",files:{400:"fonts/poppins-regular.woff2",600:"fonts/poppins-semibold.woff2",700:"fonts/poppins-bold.woff2"}},
+  {family:"Montserrat",files:{400:"fonts/montserrat-regular.woff2",600:"fonts/montserrat-semibold.woff2",700:"fonts/montserrat-bold.woff2"}},
+  {family:"Nunito",files:{400:"fonts/nunito-regular.woff2",600:"fonts/nunito-semibold.woff2",700:"fonts/nunito-bold.woff2"}},
+  {family:"Lato",files:{400:"fonts/lato-regular.woff2",700:"fonts/lato-bold.woff2",600:"fonts/lato-bold.woff2"}},
+  {family:"Work Sans",files:{400:"fonts/worksans-regular.woff2",600:"fonts/worksans-semibold.woff2",700:"fonts/worksans-bold.woff2"}},
+  {family:"Plus Jakarta Sans",files:{400:"fonts/plusjakarta-regular.woff2",600:"fonts/plusjakarta-semibold.woff2",700:"fonts/plusjakarta-bold.woff2"}},
+  {family:"Manrope",files:{400:"fonts/manrope-regular.woff2",600:"fonts/manrope-semibold.woff2",700:"fonts/manrope-bold.woff2"}},
+  {family:"DM Sans",files:{400:"fonts/dmsans-regular.woff2",600:"fonts/dmsans-semibold.woff2",700:"fonts/dmsans-bold.woff2"}},
+  {family:"Space Grotesk",files:{400:"fonts/spacegrotesk-regular.woff2",600:"fonts/spacegrotesk-semibold.woff2",700:"fonts/spacegrotesk-bold.woff2"}},
+  {family:"IBM Plex Sans",files:{400:"fonts/ibmplexsans-regular.woff2",600:"fonts/ibmplexsans-semibold.woff2",700:"fonts/ibmplexsans-bold.woff2"}},
+  {family:"Exo 2",files:{400:"fonts/exo2-regular.woff2",600:"fonts/exo2-semibold.woff2",700:"fonts/exo2-bold.woff2"}},
+  {family:"Oxygen",files:{400:"fonts/oxygen-regular.woff2",700:"fonts/oxygen-bold.woff2",600:"fonts/oxygen-bold.woff2"}},
+  {family:"Bebas Neue",files:{400:"fonts/bebasneue-regular.woff2",600:"fonts/bebasneue-regular.woff2",700:"fonts/bebasneue-regular.woff2"}},
+  {family:"Rubik",files:{400:"fonts/rubik-regular.woff2",600:"fonts/rubik-semibold.woff2",700:"fonts/rubik-bold.woff2"}},
+  {family:"Titillium Web",files:{400:"fonts/titillium-regular.woff2",600:"fonts/titillium-semibold.woff2",700:"fonts/titillium-bold.woff2"}},
+  {family:"Cairo",files:{400:"fonts/cairo-regular.woff2",600:"fonts/cairo-semibold.woff2",700:"fonts/cairo-bold.woff2"}},
+  {family:"PT Sans",files:{400:"fonts/ptsans-regular.woff2",700:"fonts/ptsans-bold.woff2",600:"fonts/ptsans-bold.woff2"}},
+  {family:"Open Sans",files:{400:"fonts/opensans-regular.woff2",600:"fonts/opensans-semibold.woff2",700:"fonts/opensans-bold.woff2"}},
+  {family:"Raleway",files:{400:"fonts/raleway-regular.woff2",600:"fonts/raleway-semibold.woff2",700:"fonts/raleway-bold.woff2"}}
+];
+function populateBuiltInFonts(){fontBuiltIn.innerHTML="";BUILTIN_FONTS.forEach(f=>{const o=document.createElement("option");o.value=f.family;o.textContent=f.family;fontBuiltIn.appendChild(o)});fontBuiltIn.onchange=applyBuiltInSelected}
+function applyBuiltInFont(family){const def=BUILTIN_FONTS.find(x=>x.family===family)||BUILTIN_FONTS[0];const css=`@font-face{font-family:"${def.family}";src:url("${def.files[400]}") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"${def.family}";src:url("${def.files[600]}") format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"${def.family}";src:url("${def.files[700]}") format("woff2");font-weight:700;font-style:normal;font-display:swap}`;injectStyle(css,"builtin_fonts_css");applyFontStack(`"${def.family}", `+systemFontStack())}
+function detectLocalFonts(){fontLocal.innerHTML="";const candidates=["Segoe UI","SF Pro Text","San Francisco","Roboto","Arial","Helvetica","Inter","Poppins","Montserrat","Open Sans","Lato","Nunito","Manrope"];const test=document.createElement("span");test.style.position="absolute";test.style.left="-9999px";test.style.fontSize="72px";test.textContent="mmmmmmmmmmlllliiiiWWWW";document.body.appendChild(test);const defW=measureFont(test,"monospace");candidates.forEach(f=>{const w=measureFont(test,`${f}, monospace`);if(w!==defW){const o=document.createElement("option");o.value=f;o.textContent=f;fontLocal.appendChild(o)}});document.body.removeChild(test);fontLocal.onchange=()=>applyFontStack(`"${fontLocal.value}", `+systemFontStack());if(fontLocal.options.length>0)applyFontStack(`"${fontLocal.options[0].value}", `+systemFontStack())}
+function measureFont(el,fstack){el.style.fontFamily=fstack;return el.getBoundingClientRect().width}
+function render(){yearEl.textContent=(new Date()).getFullYear();setLayout(ui.layout);setLinkStyle(ui.linkStyle);setFavicons(ui.favicons);setTheme(ui.theme);renderCategories();renderLinks()}
+function bind(){btnAddLink.onclick=()=>openLinkEditor(null);btnAddCategory.onclick=()=>{const name=prompt("New category name:");if(!name)return;categories.push({id:uid(),name:name.trim()});save(LS_CATS,categories);renderCategories()};btnOpenSettings.onclick=openSettings;btnCloseSettings.onclick=closeSettings;settingsOverlay.addEventListener("click",e=>{if(e.target===settingsOverlay)closeSettings()});btnCloseLink.onclick=closeLinkModal;linkOverlay.addEventListener("click",e=>{if(e.target===linkOverlay)closeLinkModal()});btnSaveLink.onclick=saveLink;btnDeleteLink.onclick=deleteLink;palette.addEventListener("click",e=>{const s=e.target.closest(".swatch");if(s)setColor(s.dataset.color)});syncRGB();btnImport.onclick=importJSON;fileImport.addEventListener("change",onImportFile);btnExport.onclick=exportJSON;setLayoutButtons();setSettingsBindings()}
+function init(){ensureDefaults();buildPalette();populateBuiltInFonts();render();loadTLDs();bind()}
+init();
+</script>
+</body>
+</html>
